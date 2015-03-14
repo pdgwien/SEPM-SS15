@@ -6,10 +6,7 @@ import sepm.ss15.e1227085.dao.DataSource;
 import sepm.ss15.e1227085.dao.IHorseDAO;
 import sepm.ss15.e1227085.domain.Horse;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +21,7 @@ public class JDBCHorseDAO implements IHorseDAO {
     public JDBCHorseDAO() {
         try {
             Connection conn = DataSource.getConnection();
-            createStmt = conn.prepareStatement("INSERT INTO Horse (name, imgPath, minSpeed, maxSpeed) VALUES (?, ?, ?, ?)");
+            createStmt = conn.prepareStatement("INSERT INTO Horse (name, imgPath, minSpeed, maxSpeed, isDeleted) VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             findAllStmt = conn.prepareStatement("SELECT * FROM Horse");
         } catch (SQLException e) {
             LOGGER.error(e);
@@ -49,7 +46,18 @@ public class JDBCHorseDAO implements IHorseDAO {
             createStmt.setString(2, horse.getImagePath());
             createStmt.setDouble(3, horse.getMinSpeed());
             createStmt.setDouble(4, horse.getMaxSpeed());
-            createStmt.executeUpdate();
+            createStmt.setBoolean(5, horse.isDeleted());
+            int affectedRows = createStmt.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("Creating horse failed, no rows affected.");
+            }
+
+            ResultSet generatedKeys = createStmt.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                horse.setId(generatedKeys.getLong(1));
+            } else {
+                throw new SQLException("Creating horse failed, no ID obtained.");
+            }
             return horse;
         } catch (SQLException e) {
             LOGGER.error(e);
@@ -93,7 +101,7 @@ public class JDBCHorseDAO implements IHorseDAO {
             horseList = new ArrayList<Horse>();
             Horse tmpHorse = null;
             while (rs.next()) {
-                tmpHorse = new Horse(rs.getString(1), rs.getString(2), rs.getDouble(3), rs.getDouble(4));
+                tmpHorse = new Horse(rs.getLong(1), rs.getString(2), rs.getString(3), rs.getDouble(4), rs.getDouble(5), rs.getBoolean(6));
                 horseList.add(tmpHorse);
             }
         } catch (SQLException e) {

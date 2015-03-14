@@ -116,4 +116,35 @@ public class RaceEntry {
     public void setSpeed(double speed) {
         this.speed = speed;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        RaceEntry raceEntry = (RaceEntry) o;
+
+        if (Double.compare(raceEntry.luckyNumber, luckyNumber) != 0) return false;
+        if (Double.compare(raceEntry.speed, speed) != 0) return false;
+        if (Double.compare(raceEntry.talent, talent) != 0) return false;
+        if (!horse.equals(raceEntry.horse)) return false;
+        if (!jockey.equals(raceEntry.jockey)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = horse.hashCode();
+        result = 31 * result + jockey.hashCode();
+        temp = Double.doubleToLongBits(talent);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(luckyNumber);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(speed);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        return result;
+    }
 }

@@ -27,7 +27,7 @@ public abstract class AbstractJDBCHorseDAOTest {
 
     @Test
     public void createWithValidParametersShouldPersist() {
-        Horse horse = new Horse("Test", "/home/test/test.png", 75.47, 85.48);
+        Horse horse = new Horse("Test", "/home/test/test.png", 75.47, 85.48, false);
         List<Horse> horses = horseDAO.findAll();
         org.junit.Assert.assertFalse(horses.contains(horse));
         horseDAO.create(horse);

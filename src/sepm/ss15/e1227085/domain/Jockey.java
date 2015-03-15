@@ -160,4 +160,15 @@ public class Jockey {
         result = 31 * result + (isDeleted ? 1 : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Jockey{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", talent=" + talent +
+                ", age=" + age +
+                ", isDeleted=" + isDeleted +
+                '}';
+    }
 }

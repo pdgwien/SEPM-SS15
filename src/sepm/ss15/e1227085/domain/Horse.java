@@ -174,4 +174,16 @@ public class Horse {
         result = 31 * result + (isDeleted ? 1 : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Horse{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", imagePath='" + imagePath + '\'' +
+                ", minSpeed=" + minSpeed +
+                ", maxSpeed=" + maxSpeed +
+                ", isDeleted=" + isDeleted +
+                '}';
+    }
 }

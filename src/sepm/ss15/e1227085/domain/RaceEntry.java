@@ -7,8 +7,8 @@ public class RaceEntry {
     private Horse horse;
     private Jockey jockey;
     private double talent;
-    private double luckyNumber;
     private double speed;
+    private double luckyNumber;
 
     /**
      * Instantiates a new Race entry.
@@ -19,12 +19,12 @@ public class RaceEntry {
      * @param luckyNumber the lucky number
      * @param speed       the speed
      */
-    public RaceEntry(Horse horse, Jockey jockey, double talent, double luckyNumber, double speed) {
+    public RaceEntry(Horse horse, Jockey jockey, double talent, double speed, double luckyNumber) {
         this.horse = horse;
         this.jockey = jockey;
         this.talent = talent;
-        this.luckyNumber = luckyNumber;
         this.speed = speed;
+        this.luckyNumber = luckyNumber;
     }
 
     /**
@@ -146,5 +146,16 @@ public class RaceEntry {
         temp = Double.doubleToLongBits(speed);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "RaceEntry{" +
+                "horse=" + horse +
+                ", jockey=" + jockey +
+                ", talent=" + talent +
+                ", luckyNumber=" + luckyNumber +
+                ", speed=" + speed +
+                '}';
     }
 }

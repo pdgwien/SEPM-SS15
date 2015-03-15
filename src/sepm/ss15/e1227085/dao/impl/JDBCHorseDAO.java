@@ -16,17 +16,24 @@ import java.util.List;
 public class JDBCHorseDAO implements IHorseDAO {
     private static final Logger LOGGER = LogManager.getLogger();
     private PreparedStatement createStmt;
+    private PreparedStatement updateStmt;
+    private PreparedStatement deleteStmt;
     private PreparedStatement findAllStmt;
+    private PreparedStatement findByNameStmt;
+    private PreparedStatement findByIdStmt;
 
     public JDBCHorseDAO() {
         try {
             Connection conn = DataSource.getConnection();
             createStmt = conn.prepareStatement("INSERT INTO Horse (name, imgPath, minSpeed, maxSpeed, isDeleted) VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-            findAllStmt = conn.prepareStatement("SELECT * FROM Horse");
+            updateStmt = conn.prepareStatement("UPDATE Horse SET name = ?, imgPath = ?, minSpeed = ?, maxSpeed = ?, isDeleted = ? WHERE id = ?");
+            deleteStmt = conn.prepareStatement("UPDATE Horse SET isDeleted = true WHERE id = ?");
+            findAllStmt = conn.prepareStatement("SELECT * FROM Horse WHERE isDeleted = false");
+            findByNameStmt = conn.prepareStatement("SELECT * FROM Horse WHERE isDeleted = false AND name LIKE ?");
+            findByIdStmt = conn.prepareStatement("SELECT * FROM Horse WHERE id = ?");
         } catch (SQLException e) {
             LOGGER.error(e);
-            //TODO: PersistenceException
-            throw new RuntimeException();
+            throw new RuntimeException("Something is wrong, cannot prepare SQL statements.");
         }
     }
 
@@ -39,7 +46,7 @@ public class JDBCHorseDAO implements IHorseDAO {
     @Override
     public Horse create(Horse horse) {
         if (horse == null) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Horse cannot be null");
         }
         try {
             createStmt.setString(1, horse.getName());
@@ -73,6 +80,24 @@ public class JDBCHorseDAO implements IHorseDAO {
      */
     @Override
     public Horse update(Horse horse) {
+        if (horse == null) {
+            throw new IllegalArgumentException("Horse cannot be null");
+        }
+        try {
+            updateStmt.setString(1, horse.getName());
+            updateStmt.setString(2, horse.getImagePath());
+            updateStmt.setDouble(3, horse.getMinSpeed());
+            updateStmt.setDouble(4, horse.getMaxSpeed());
+            updateStmt.setBoolean(5, horse.isDeleted());
+            updateStmt.setLong(6, horse.getId());
+            int affectedRows = updateStmt.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("Updating horse failed, no rows affected.");
+            }
+            return horse;
+        } catch (SQLException e) {
+            LOGGER.error(e);
+        }
         return null;
     }
 
@@ -84,6 +109,19 @@ public class JDBCHorseDAO implements IHorseDAO {
      */
     @Override
     public Horse delete(Horse horse) {
+        if (horse == null) {
+            throw new IllegalArgumentException("Horse cannot be null");
+        }
+        try {
+            deleteStmt.setLong(1, horse.getId());
+            int affectedRows = deleteStmt.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("Deleting horse failed, no rows affected.");
+            }
+            return horse;
+        } catch (SQLException e) {
+            LOGGER.error(e);
+        }
         return null;
     }
 
@@ -94,7 +132,6 @@ public class JDBCHorseDAO implements IHorseDAO {
      */
     @Override
     public List<Horse> findAll() {
-        LOGGER.entry();
         ArrayList<Horse> horseList = null;
         try {
             ResultSet rs = findAllStmt.executeQuery();
@@ -118,6 +155,40 @@ public class JDBCHorseDAO implements IHorseDAO {
      */
     @Override
     public List<Horse> findByName(String name) {
-        return null;
+        ArrayList<Horse> horseList = null;
+        try {
+            findByNameStmt.setString(1, name + "%");
+            ResultSet rs = findByNameStmt.executeQuery();
+            horseList = new ArrayList<Horse>();
+            Horse tmpHorse = null;
+            while (rs.next()) {
+                tmpHorse = new Horse(rs.getLong(1), rs.getString(2), rs.getString(3), rs.getDouble(4), rs.getDouble(5), rs.getBoolean(6));
+                horseList.add(tmpHorse);
+            }
+        } catch (SQLException e) {
+            LOGGER.error(e);
+        }
+        return horseList;
+    }
+
+    /**
+     * Find by id.
+     *
+     * @param id the id
+     * @return the horse
+     */
+    @Override
+    public Horse findById(long id) {
+        Horse horse = null;
+        try {
+            findByIdStmt.setLong(1, id);
+            ResultSet rs = findByIdStmt.executeQuery();
+            while (rs.next()) {
+                horse = new Horse(rs.getLong(1), rs.getString(2), rs.getString(3), rs.getDouble(4), rs.getDouble(5), rs.getBoolean(6));
+            }
+        } catch (SQLException e) {
+            LOGGER.error(e);
+        }
+        return horse;
     }
 }

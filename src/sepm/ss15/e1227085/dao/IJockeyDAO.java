@@ -40,9 +40,18 @@ public interface IJockeyDAO {
     public List<Jockey> findAll();
 
     /**
-     * Search by name.
+     * Find jockeys by name.
      *
-     * @return the list of jockeys according to the specified attribute
+     * @param name the name to search for, does a prefix search.
+     * @return the list
      */
-    public List<Jockey> findByName();
+    public List<Jockey> findByName(String name);
+
+    /**
+     * Find by id.
+     *
+     * @param id the id
+     * @return the jockey
+     */
+    public Jockey findById(long id);
 }

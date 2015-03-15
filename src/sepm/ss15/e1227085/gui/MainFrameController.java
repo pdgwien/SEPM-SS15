@@ -20,7 +20,6 @@ public class MainFrameController {
 
     @FXML
     void onHelpClick(ActionEvent event) {
-
     }
 
     @FXML

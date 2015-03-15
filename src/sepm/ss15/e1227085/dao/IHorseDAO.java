@@ -17,7 +17,7 @@ public interface IHorseDAO {
     public Horse create(Horse horse);
 
     /**
-     * Update a horse in the database.
+     * Update a horse in the database. Returns the object if successful, null otherwise.
      *
      * @param horse the horse
      * @return the horse
@@ -25,7 +25,7 @@ public interface IHorseDAO {
     public Horse update(Horse horse);
 
     /**
-     * Delete a horse.
+     * Delete a horse. Returns the object if sucessful, null otherwise.
      *
      * @param horse the horse
      * @return the horse
@@ -46,4 +46,12 @@ public interface IHorseDAO {
      * @return the list of all horses having the specified value
      */
     public List<Horse> findByName(String name);
+
+    /**
+     * Find by id.
+     *
+     * @param id the id
+     * @return the horse
+     */
+    public Horse findById(long id);
 }

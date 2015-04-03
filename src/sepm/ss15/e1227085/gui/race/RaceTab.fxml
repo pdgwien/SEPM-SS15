@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"
+            xmlns="http://javafx.com/javafx/8" fx:controller="sepm.ss15.e1227085.gui.race.RaceTabController">
+  <children>
+    <BorderPane prefHeight="180.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <center>
+        <TableView fx:id="raceTable" prefHeight="85.0" prefWidth="198.0" BorderPane.alignment="CENTER">
+          <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+          </columnResizePolicy>
+          <columns>
+            <TableColumn fx:id="nameColumn" prefWidth="351.0" text="Rennnummer"/>
+            <TableColumn fx:id="horsesColumn" prefWidth="170.0" text="Pferde"/>
+            <TableColumn fx:id="jockeysColumn" prefWidth="170.0" text="Jockeys"/>
+          </columns>
+        </TableView>
+      </center>
+      <bottom>
+        <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+          <items>
+            <Button fx:id="newButton" mnemonicParsing="false" onAction="#handleNewRace" text="Neu"/>
+            <Button fx:id="showButton" mnemonicParsing="false" onAction="#handleShowRace" text="Anzeigen"/>
+          </items>
+        </ToolBar>
+      </bottom>
+      <top>
+        <HBox prefHeight="25.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+          <children>
+            <TextField fx:id="idSearchField" promptText="Rennnummer"/>
+            <TextField fx:id="horseSearchField" promptText="Pferdename"/>
+            <TextField fx:id="jockeySearchField" promptText="Jockeyname"/>
+          </children>
+        </HBox>
+      </top>
+    </BorderPane>
+  </children>
+</AnchorPane>

@@ -1,4 +1,4 @@
-package sepm.ss15.e1227085.gui;
+package sepm.ss15.e1227085.gui.horse;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -7,10 +7,7 @@ import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
@@ -18,10 +15,12 @@ import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import sepm.ss15.e1227085.domain.Horse;
+import sepm.ss15.e1227085.gui.Main;
 import sepm.ss15.e1227085.service.IHorseService;
 import sepm.ss15.e1227085.service.impl.JDBCHorseService;
 
 import java.io.IOException;
+import java.util.Optional;
 
 
 /**
@@ -82,7 +81,7 @@ public class HorseTabController {
   private boolean showHorseEditDialog(Horse horse, boolean newHorseCreation) {
     try {
       FXMLLoader loader = new FXMLLoader();
-      loader.setLocation(Main.class.getResource("HorseEditDialog.fxml"));
+      loader.setLocation(Main.class.getResource("horse/HorseEditDialog.fxml"));
       GridPane page = loader.load();
 
       Stage dialogStage = new Stage();
@@ -112,7 +111,14 @@ public class HorseTabController {
     int selectedIndex = horseTable.getSelectionModel().getSelectedIndex();
     if (selectedIndex >= 0) {
       selectedIndex = filteredHorseList.getSourceIndex(selectedIndex);
-      horseList.remove(selectedIndex);
+      Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+      alert.setTitle("Sicher?");
+      alert.setHeaderText(null);
+      alert.setContentText("Willst du das wirklich löschen?");
+      Optional<ButtonType> result = alert.showAndWait();
+      if (result.isPresent() && result.get() == ButtonType.OK) {
+        horseList.remove(selectedIndex);
+      }
     } else {
       Alert alert = new Alert(Alert.AlertType.ERROR);
       alert.setTitle("Fehler");

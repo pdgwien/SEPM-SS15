@@ -7,17 +7,17 @@
   <tabs>
     <Tab text="Pferde">
       <content>
-        <fx:include fx:id="horseTab" source="HorseTab.fxml"/>
+        <fx:include fx:id="horseTab" source="horse/HorseTab.fxml"/>
       </content>
     </Tab>
     <Tab text="Jockeys">
       <content>
-        <fx:include fx:id="jockeyTab" source="JockeyTab.fxml"/>
+        <fx:include fx:id="jockeyTab" source="jockey/JockeyTab.fxml"/>
       </content>
     </Tab>
     <Tab text="Rennen">
       <content>
-        <fx:include fx:id="raceTab" source="RaceTab.fxml"/>
+        <fx:include fx:id="raceTab" source="race/RaceTab.fxml"/>
       </content>
     </Tab>
   </tabs>

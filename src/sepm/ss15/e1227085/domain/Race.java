@@ -2,6 +2,7 @@ package sepm.ss15.e1227085.domain;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * Created by Patrick Grosslicht <e1227085@student.tuwien.ac.at>.
@@ -56,6 +57,30 @@ public class Race {
    */
   public void setEntries(List<RaceEntry> entries) {
     this.entries = entries;
+  }
+
+  /**
+   * Gets all names of the participating horses as concatenated string.
+   *
+   * @return the horses names
+   */
+  public String getHorsesNames() {
+    return this.entries.stream()
+        .map(RaceEntry::getHorse)
+        .map(Horse::getName)
+        .collect(Collectors.joining(", "));
+  }
+
+  /**
+   * Gets all names of the participating jockeys as concatenated string.
+   *
+   * @return the jockeys names
+   */
+  public String getJockeysNames() {
+    return this.entries.stream()
+        .map(RaceEntry::getJockey)
+        .map(Jockey::getName)
+        .collect(Collectors.joining(", "));
   }
 
   @Override

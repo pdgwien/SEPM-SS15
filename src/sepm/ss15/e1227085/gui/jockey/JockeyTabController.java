@@ -1,4 +1,4 @@
-package sepm.ss15.e1227085.gui;
+package sepm.ss15.e1227085.gui.jockey;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import sepm.ss15.e1227085.domain.Jockey;
+import sepm.ss15.e1227085.gui.Main;
 import sepm.ss15.e1227085.service.IJockeyService;
 import sepm.ss15.e1227085.service.impl.JDBCJockeyService;
 
@@ -82,7 +83,7 @@ public class JockeyTabController {
   private boolean showJockeyEditDialog(Jockey jockey, boolean newJockeyCreation) {
     try {
       FXMLLoader loader = new FXMLLoader();
-      loader.setLocation(Main.class.getResource("JockeyEditDialog.fxml"));
+      loader.setLocation(Main.class.getResource("jockey/JockeyEditDialog.fxml"));
       GridPane page = loader.load();
 
       Stage dialogStage = new Stage();

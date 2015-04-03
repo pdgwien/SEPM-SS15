@@ -1,10 +1,35 @@
 package sepm.ss15.e1227085.service;
 
+import sepm.ss15.e1227085.domain.Horse;
+import sepm.ss15.e1227085.domain.Jockey;
+import sepm.ss15.e1227085.domain.RaceEntry;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 /**
  * Created by Patrick Grosslicht <e1227085@student.tuwien.ac.at>.
  */
 public class Validator {
   public Validator() {
+  }
+
+  /**
+   * Checks if all race entries in list are valid.
+   *
+   * @param raceEntries the race entries
+   * @return the boolean
+   */
+  public boolean areValidRaceEntries(List<RaceEntry> raceEntries) {
+    List<Horse> horses = raceEntries.stream()
+        .map(RaceEntry::getHorse)
+        .collect(Collectors.toList());
+    List<Jockey> jockeys = raceEntries.stream()
+        .map(RaceEntry::getJockey)
+        .collect(Collectors.toList());
+    return isListUnique(horses) && isListUnique(jockeys);
   }
 
   /**
@@ -48,6 +73,14 @@ public class Validator {
    */
   public boolean isValidName(String name) {
     return isNonEmptyString(name);
+  }
+
+  public boolean isListUnique(List<?> list) {
+    Set inputSet = new HashSet(list);
+    if (inputSet.size() < list.size()) {
+      return false;
+    }
+    return true;
   }
 
   /**

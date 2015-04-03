@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <GridPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
           minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8"
-          fx:controller="sepm.ss15.e1227085.gui.HorseEditDialogController">
+          fx:controller="sepm.ss15.e1227085.gui.horse.HorseEditDialogController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="295.0" minWidth="10.0" prefWidth="197.0"/>
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="403.0" minWidth="10.0" prefWidth="403.0"/>

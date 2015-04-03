@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"
-            xmlns="http://javafx.com/javafx/8" fx:controller="sepm.ss15.e1227085.gui.JockeyTabController">
+            xmlns="http://javafx.com/javafx/8" fx:controller="sepm.ss15.e1227085.gui.jockey.JockeyTabController">
   <children>
     <BorderPane prefHeight="180.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
                 AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -29,7 +29,7 @@
         </ToolBar>
       </bottom>
       <top>
-        <TextField fx:id="filterField" BorderPane.alignment="CENTER"/>
+        <TextField fx:id="filterField" promptText="Suche nach Name" BorderPane.alignment="CENTER"/>
       </top>
     </BorderPane>
   </children>

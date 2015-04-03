@@ -1,4 +1,4 @@
-package sepm.ss15.e1227085.gui;
+package sepm.ss15.e1227085.gui.jockey;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -94,6 +94,13 @@ public class JockeyEditDialogController {
       }
       okClicked = true;
       dialogStage.close();
+
+      Alert alert = new Alert(Alert.AlertType.INFORMATION);
+      alert.setTitle("Erfolg");
+      alert.setHeaderText(null);
+      alert.setContentText("Daten wurden erfolgreich gespeichert!");
+
+      alert.show();
     }
   }
 

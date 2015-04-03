@@ -1,5 +1,8 @@
 package sepm.ss15.e1227085.domain;
 
+import sepm.ss15.e1227085.util.Util;
+
+
 /**
  * Created by Patrick Grosslicht <e1227085@student.tuwien.ac.at>.
  */
@@ -25,6 +28,20 @@ public class RaceEntry {
     this.talent = talent;
     this.speed = speed;
     this.luckyNumber = luckyNumber;
+  }
+
+  /**
+   * Instantiates a new Race entry with a known horse and jockey and populates the rest of the fields.
+   *
+   * @param horse  the horse
+   * @param jockey the jockey
+   */
+  public RaceEntry(Horse horse, Jockey jockey) {
+    this.horse = horse;
+    this.jockey = jockey;
+    this.luckyNumber = Util.randomDoubleBetween(0.95, 1.05);
+    this.talent = 1 + (0.15 * (1 / Math.PI) * Math.atan(0.2 * jockey.getTalent()));
+    this.speed = Util.randomDoubleBetween(horse.getMinSpeed(), horse.getMaxSpeed()) * this.talent * this.luckyNumber;
   }
 
   /**

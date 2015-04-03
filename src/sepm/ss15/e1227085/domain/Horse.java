@@ -183,35 +183,76 @@ public class Horse {
     return result;
   }
 
+  /**
+   * Id property.
+   *
+   * @return the long property
+   */
   public LongProperty idProperty() {
     return id;
   }
 
+  /**
+   * Name property.
+   *
+   * @return the string property
+   */
   public StringProperty nameProperty() {
     return name;
   }
 
+  /**
+   * Image path property.
+   *
+   * @return the string property
+   */
   public StringProperty imagePathProperty() {
     return imagePath;
   }
 
+  /**
+   * Min speed property.
+   *
+   * @return the double property
+   */
   public DoubleProperty minSpeedProperty() {
     return minSpeed;
   }
 
+  /**
+   * Max speed property.
+   *
+   * @return the double property
+   */
   public DoubleProperty maxSpeedProperty() {
     return maxSpeed;
   }
 
+  /**
+   * Gets is deleted.
+   *
+   * @return the is deleted
+   */
   public boolean getIsDeleted() {
     return isDeleted.get();
   }
 
+  /**
+   * Sets is deleted.
+   *
+   * @param isDeleted the is deleted
+   */
   public void setIsDeleted(boolean isDeleted) {
     this.isDeleted.set(isDeleted);
   }
 
+  /**
+   * Is deleted property.
+   *
+   * @return the boolean property
+   */
   public BooleanProperty isDeletedProperty() {
     return isDeleted;
   }
+
 }

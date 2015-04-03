@@ -17,9 +17,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import sepm.ss15.e1227085.domain.Horse;
-import sepm.ss15.e1227085.service.IHorseService;
-import sepm.ss15.e1227085.service.impl.JDBCHorseService;
+import sepm.ss15.e1227085.domain.Jockey;
+import sepm.ss15.e1227085.service.IJockeyService;
+import sepm.ss15.e1227085.service.impl.JDBCJockeyService;
 
 import java.io.IOException;
 
@@ -30,18 +30,18 @@ import java.io.IOException;
 public class JockeyTabController {
   private static final Logger LOGGER = LogManager.getLogger();
   @FXML
-  private TableView<Horse> horseTable;
+  private TableView<Jockey> jockeyTable;
   @FXML
-  private TableColumn<Horse, String> nameColumn;
+  private TableColumn<Jockey, String> nameColumn;
   @FXML
-  private TableColumn<Horse, Double> maxSpeedColumn;
+  private TableColumn<Jockey, Double> talentColumn;
   @FXML
-  private TableColumn<Horse, Double> minSpeedColumn;
+  private TableColumn<Jockey, Integer> ageColumn;
   @FXML
   private TextField filterField;
-  private IHorseService horseService = new JDBCHorseService();
-  private ObservableList<Horse> horseList;
-  private FilteredList<Horse> filteredHorseList;
+  private IJockeyService jockeyService = new JDBCJockeyService();
+  private ObservableList<Jockey> jockeyList;
+  private FilteredList<Jockey> filteredJockeyList;
 
   /**
    * Automatically called when tab is created, binds the correct data to the columns and adds listeners
@@ -50,51 +50,51 @@ public class JockeyTabController {
   @FXML
   private void initialize() {
     nameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-    maxSpeedColumn.setCellValueFactory(new PropertyValueFactory<Horse, Double>("maxSpeed"));
-    minSpeedColumn.setCellValueFactory(new PropertyValueFactory<Horse, Double>("minSpeed"));
-    horseList = FXCollections.observableList(horseService.findAll());
-    filteredHorseList = new FilteredList<Horse>(horseList, horse -> true);
+    talentColumn.setCellValueFactory(new PropertyValueFactory<Jockey, Double>("talent"));
+    ageColumn.setCellValueFactory(new PropertyValueFactory<Jockey, Integer>("age"));
+    jockeyList = FXCollections.observableList(jockeyService.findAll());
+    filteredJockeyList = new FilteredList<Jockey>(jockeyList, jockey -> true);
 
     filterField.textProperty().addListener((observable, oldValue, newValue) -> {
-      filteredHorseList.setPredicate(horse -> newValue == null
+      filteredJockeyList.setPredicate(jockey -> newValue == null
           || newValue.isEmpty()
-          || horse.getName().toLowerCase().contains(newValue.toLowerCase()));
+          || jockey.getName().toLowerCase().contains(newValue.toLowerCase()));
     });
 
-    horseList.addListener((ListChangeListener<Horse>) change -> {
+    jockeyList.addListener((ListChangeListener<Jockey>) change -> {
       while (change.next()) {
         if (change.wasRemoved()) {
-          change.getRemoved().forEach(horseService::delete);
+          change.getRemoved().forEach(jockeyService::delete);
           LOGGER.debug(change);
         }
       }
     });
-    horseTable.setItems(filteredHorseList);
+    jockeyTable.setItems(filteredJockeyList);
   }
 
   /**
    * shows the edit dialog, returns true if user clicked ok, false otherwise
    *
-   * @param horse            the horse to edit
-   * @param newHorseCreation whether we create a new horse or edit an old one
+   * @param jockey            the jockey to edit
+   * @param newJockeyCreation whether we create a new jockey or edit an old one
    * @return true if user clicked ok, false otherwise.
    */
-  private boolean showHorseEditDialog(Horse horse, boolean newHorseCreation) {
+  private boolean showJockeyEditDialog(Jockey jockey, boolean newJockeyCreation) {
     try {
       FXMLLoader loader = new FXMLLoader();
-      loader.setLocation(Main.class.getResource("HorseEditDialog.fxml"));
+      loader.setLocation(Main.class.getResource("JockeyEditDialog.fxml"));
       GridPane page = loader.load();
 
       Stage dialogStage = new Stage();
-      dialogStage.setTitle("Pferd ändern");
+      dialogStage.setTitle("Jockey ändern");
       dialogStage.initModality(Modality.WINDOW_MODAL);
       Scene scene = new Scene(page);
       dialogStage.setScene(scene);
 
-      HorseEditDialogController controller = loader.getController();
+      JockeyEditDialogController controller = loader.getController();
       controller.setDialogStage(dialogStage);
-      controller.setNewHorseCreation(newHorseCreation);
-      controller.setHorse(horse);
+      controller.setNewJockeyCreation(newJockeyCreation);
+      controller.setJockey(jockey);
 
       dialogStage.showAndWait();
       return controller.isOkClicked();
@@ -108,11 +108,11 @@ public class JockeyTabController {
    * Called when delete button is pressed, tries to delete element, opens error dialog if unable to
    */
   @FXML
-  private void handleDeleteHorse() {
-    int selectedIndex = horseTable.getSelectionModel().getSelectedIndex();
+  private void handleDeleteJockey() {
+    int selectedIndex = jockeyTable.getSelectionModel().getSelectedIndex();
     if (selectedIndex >= 0) {
-      selectedIndex = filteredHorseList.getSourceIndex(selectedIndex);
-      horseList.remove(selectedIndex);
+      selectedIndex = filteredJockeyList.getSourceIndex(selectedIndex);
+      jockeyList.remove(selectedIndex);
     } else {
       Alert alert = new Alert(Alert.AlertType.ERROR);
       alert.setTitle("Fehler");
@@ -126,10 +126,10 @@ public class JockeyTabController {
    * Called when edit button is pressed, opens edit dialog if able, error dialog otherwise
    */
   @FXML
-  private void handleEditHorse() {
-    Horse selectedHorse = horseTable.getSelectionModel().getSelectedItem();
-    if (selectedHorse != null) {
-      this.showHorseEditDialog(selectedHorse, false);
+  private void handleEditJockey() {
+    Jockey selectedJockey = jockeyTable.getSelectionModel().getSelectedItem();
+    if (selectedJockey != null) {
+      this.showJockeyEditDialog(selectedJockey, false);
     } else {
       Alert alert = new Alert(Alert.AlertType.ERROR);
       alert.setTitle("Fehler");
@@ -143,10 +143,10 @@ public class JockeyTabController {
    * Called when new button is pressed, opens edit dialog and adds element to list if creation was successful
    */
   @FXML
-  private void handleNewHorse() {
-    Horse tmpHorse = new Horse();
-    if (this.showHorseEditDialog(tmpHorse, true)) {
-      horseList.add(tmpHorse);
+  private void handleNewJockey() {
+    Jockey tmpJockey = new Jockey();
+    if (this.showJockeyEditDialog(tmpJockey, true)) {
+      jockeyList.add(tmpJockey);
     }
   }
 }

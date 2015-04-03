@@ -2,10 +2,10 @@ package sepm.ss15.e1227085.gui;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,6 +13,9 @@ import sepm.ss15.e1227085.domain.Horse;
 import sepm.ss15.e1227085.service.IHorseService;
 import sepm.ss15.e1227085.service.Validator;
 import sepm.ss15.e1227085.service.impl.JDBCHorseService;
+
+import java.io.File;
+import java.util.Arrays;
 
 /**
  * Created by Patrick Grosslicht <e1227085@student.tuwien.ac.at>.
@@ -26,14 +29,13 @@ public class HorseEditDialogController {
   @FXML
   private TextField maxSpeedField;
   @FXML
-  private Button filePickerButton;
-  @FXML
   private ImageView imageView;
   private IHorseService horseService;
   private Horse horse;
   private Stage dialogStage;
   private boolean newHorseCreation;
   private boolean okClicked;
+  private Image image;
   private String imagePath;
   private Validator validator = new Validator();
 
@@ -66,8 +68,31 @@ public class HorseEditDialogController {
     nameField.setText(horse.getName());
     minSpeedField.setText(String.valueOf(horse.getMinSpeed()));
     maxSpeedField.setText(String.valueOf(horse.getMaxSpeed()));
+    this.imagePath = horse.getImagePath();
     if (!newHorseCreation) {
-      Image image = new Image(horse.getImagePath());
+      try {
+        image = new Image(horse.getImagePath());
+        imageView.setImage(image);
+      } catch (IllegalArgumentException e) {
+        LOGGER.error(e);
+      }
+    }
+  }
+
+  /**
+   * Shows filechooser when button is pressed
+   */
+  @FXML
+  private void showFileChooser() {
+    FileChooser fileChooser = new FileChooser();
+    fileChooser.setTitle("Bild auswählen");
+    fileChooser.getExtensionFilters().add(
+        new FileChooser.ExtensionFilter("Bilder", Arrays.asList("*.png", "*.gif", "*.jpg", "*.jpeg", "*.bmp"))
+    );
+    File file = fileChooser.showOpenDialog(dialogStage);
+    if (file != null) {
+      imagePath = file.toURI().toString();
+      image = new Image(file.toURI().toString());
       imageView.setImage(image);
     }
   }
@@ -99,6 +124,7 @@ public class HorseEditDialogController {
       horse.setName(nameField.getText());
       horse.setMinSpeed(Double.parseDouble(minSpeedField.getText()));
       horse.setMaxSpeed(Double.parseDouble(maxSpeedField.getText()));
+      horse.setImagePath(imagePath);
       if (newHorseCreation) {
         horseService.create(horse);
       } else {

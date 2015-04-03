@@ -15,7 +15,29 @@ public class Validator {
    */
   public boolean isValidSpeed(String speed) {
     return isStringValidDouble(speed)
-        && Double.parseDouble(speed) >= 0.0;
+        && Double.parseDouble(speed) >= 50.0
+        && Double.parseDouble(speed) <= 100.0;
+  }
+
+  /**
+   * Checks if string is valid talent.
+   *
+   * @param talent the talent
+   * @return the boolean
+   */
+  public boolean isValidTalent(String talent) {
+    return isStringValidDouble(talent);
+  }
+
+  /**
+   * Checks if string is valid age.
+   *
+   * @param age the age
+   * @return the boolean
+   */
+  public boolean isValidAge(String age) {
+    return isStringValidInteger(age)
+        && Integer.parseInt(age) >= 0;
   }
 
   /**
@@ -40,6 +62,24 @@ public class Validator {
     }
     try {
       Double.parseDouble(string);
+    } catch (NumberFormatException e) {
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * Checks if string valid integer.
+   *
+   * @param string the string
+   * @return the boolean
+   */
+  public boolean isStringValidInteger(String string) {
+    if (!isNonEmptyString(string)) {
+      return false;
+    }
+    try {
+      Integer.parseInt(string);
     } catch (NumberFormatException e) {
       return false;
     }

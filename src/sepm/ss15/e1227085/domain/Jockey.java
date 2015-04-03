@@ -1,45 +1,54 @@
 package sepm.ss15.e1227085.domain;
 
+import javafx.beans.property.*;
+
 /**
  * Created by Patrick Grosslicht <e1227085@student.tuwien.ac.at>.
  */
 public class Jockey {
-  private long id = -1;
-  private String name = "";
-  private double talent = 0.00;
-  private int age = 0;
-  private boolean isDeleted = false;
+  private LongProperty id = new SimpleLongProperty(-1);
+  private StringProperty name = new SimpleStringProperty("");
+  private DoubleProperty talent = new SimpleDoubleProperty(0.00);
+  private IntegerProperty age = new SimpleIntegerProperty(0);
+  private BooleanProperty isDeleted = new SimpleBooleanProperty(false);
 
   /**
    * Instantiates a new Jockey.
    *
-   * @param name      the name
-   * @param talent    the talent
-   * @param age       the age
+   * @param name the name
+   * @param talent the talent
+   * @param age the age
    * @param isDeleted the is deleted
    */
   public Jockey(String name, double talent, int age, boolean isDeleted) {
-    this.name = name;
-    this.talent = talent;
-    this.age = age;
-    this.isDeleted = isDeleted;
+    this.name = new SimpleStringProperty(name);
+    this.talent = new SimpleDoubleProperty(talent);
+    this.age = new SimpleIntegerProperty(age);
+    this.isDeleted = new SimpleBooleanProperty(isDeleted);
   }
 
   /**
    * Instantiates a new Jockey with a known ID
    *
-   * @param id        the id
-   * @param name      the name
-   * @param talent    the talent
-   * @param age       the age
+   * @param id the id
+   * @param name the name
+   * @param talent the talent
+   * @param age the age
    * @param isDeleted the is deleted
    */
   public Jockey(long id, String name, double talent, int age, boolean isDeleted) {
-    this.id = id;
-    this.name = name;
-    this.talent = talent;
-    this.age = age;
-    this.isDeleted = isDeleted;
+    this.id = new SimpleLongProperty(id);
+    this.name = new SimpleStringProperty(name);
+    this.talent = new SimpleDoubleProperty(talent);
+    this.age = new SimpleIntegerProperty(age);
+    this.isDeleted = new SimpleBooleanProperty(isDeleted);
+  }
+
+  /**
+   * Instantiates a new Jockey.
+   */
+  public Jockey() {
+
   }
 
   /**
@@ -48,7 +57,7 @@ public class Jockey {
    * @return the id
    */
   public long getId() {
-    return id;
+    return id.get();
   }
 
   /**
@@ -57,7 +66,16 @@ public class Jockey {
    * @param id the id
    */
   public void setId(long id) {
-    this.id = id;
+    this.id.set(id);
+  }
+
+  /**
+   * Gets Id property.
+   *
+   * @return the long property
+   */
+  public LongProperty idProperty() {
+    return id;
   }
 
   /**
@@ -66,7 +84,7 @@ public class Jockey {
    * @return the name
    */
   public String getName() {
-    return name;
+    return name.get();
   }
 
   /**
@@ -75,7 +93,16 @@ public class Jockey {
    * @param name the name
    */
   public void setName(String name) {
-    this.name = name;
+    this.name.set(name);
+  }
+
+  /**
+   * Gets Name property.
+   *
+   * @return the string property
+   */
+  public StringProperty nameProperty() {
+    return name;
   }
 
   /**
@@ -84,7 +111,7 @@ public class Jockey {
    * @return the talent
    */
   public double getTalent() {
-    return talent;
+    return talent.get();
   }
 
   /**
@@ -93,7 +120,16 @@ public class Jockey {
    * @param talent the talent
    */
   public void setTalent(double talent) {
-    this.talent = talent;
+    this.talent.set(talent);
+  }
+
+  /**
+   * Gets Talent property.
+   *
+   * @return the double property
+   */
+  public DoubleProperty talentProperty() {
+    return talent;
   }
 
   /**
@@ -102,7 +138,7 @@ public class Jockey {
    * @return the age
    */
   public int getAge() {
-    return age;
+    return age.get();
   }
 
   /**
@@ -111,25 +147,43 @@ public class Jockey {
    * @param age the age
    */
   public void setAge(int age) {
-    this.age = age;
+    this.age.set(age);
   }
 
   /**
-   * Is deleted.
+   * Gets Age property.
    *
-   * @return the boolean
+   * @return the integer property
+   */
+  public IntegerProperty ageProperty() {
+    return age;
+  }
+
+  /**
+   * Gets isDeleted.
+   *
+   * @return the is deleted
    */
   public boolean isDeleted() {
+    return isDeleted.get();
+  }
+
+  /**
+   * Gets deleted property.
+   *
+   * @return the boolean property
+   */
+  public BooleanProperty isDeletedProperty() {
     return isDeleted;
   }
 
   /**
-   * Sets deleted.
+   * Sets isDeleted.
    *
    * @param isDeleted the is deleted
    */
-  public void setDeleted(boolean isDeleted) {
-    this.isDeleted = isDeleted;
+  public void setIsDeleted(boolean isDeleted) {
+    this.isDeleted.set(isDeleted);
   }
 
   @Override
@@ -139,11 +193,11 @@ public class Jockey {
 
     Jockey jockey = (Jockey) o;
 
-    if (age != jockey.age) return false;
-    if (id != jockey.id) return false;
-    if (isDeleted != jockey.isDeleted) return false;
-    if (Double.compare(jockey.talent, talent) != 0) return false;
-    if (!name.equals(jockey.name)) return false;
+    if (age.get() != jockey.age.get()) return false;
+    if (id.get() != jockey.id.get()) return false;
+    if (isDeleted.get() != jockey.isDeleted.get()) return false;
+    if (Double.compare(jockey.talent.get(), talent.get()) != 0) return false;
+    if (!name.get().equals(jockey.name.get())) return false;
 
     return true;
   }
@@ -152,23 +206,12 @@ public class Jockey {
   public int hashCode() {
     int result;
     long temp;
-    result = (int) (id ^ (id >>> 32));
-    result = 31 * result + name.hashCode();
-    temp = Double.doubleToLongBits(talent);
+    result = (int) (id.get() ^ (id.get() >>> 32));
+    result = 31 * result + name.get().hashCode();
+    temp = Double.doubleToLongBits(talent.get());
     result = 31 * result + (int) (temp ^ (temp >>> 32));
-    result = 31 * result + age;
-    result = 31 * result + (isDeleted ? 1 : 0);
+    result = 31 * result + age.get();
+    result = 31 * result + (isDeleted.get() ? 1 : 0);
     return result;
-  }
-
-  @Override
-  public String toString() {
-    return "Jockey{" +
-        "id=" + id +
-        ", name='" + name + '\'' +
-        ", talent=" + talent +
-        ", age=" + age +
-        ", isDeleted=" + isDeleted +
-        '}';
   }
 }

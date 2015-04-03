@@ -187,6 +187,9 @@ public class JDBCJockeyDAO implements IJockeyDAO {
         } catch (SQLException e) {
             LOGGER.error(e);
         }
+        if (jockey == null) {
+            throw new IllegalArgumentException("ID could not be found");
+        }
         return jockey;
     }
 }

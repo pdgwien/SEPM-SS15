@@ -48,7 +48,7 @@ public interface IHorseDAO {
     public List<Horse> findByName(String name);
 
     /**
-     * Find by id.
+     * Find one horse by id.
      *
      * @param id the id
      * @return the horse

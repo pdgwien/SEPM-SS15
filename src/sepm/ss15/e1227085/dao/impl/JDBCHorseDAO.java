@@ -189,6 +189,9 @@ public class JDBCHorseDAO implements IHorseDAO {
         } catch (SQLException e) {
             LOGGER.error(e);
         }
+        if (horse == null) {
+            throw new IllegalArgumentException("ID could not be found");
+        }
         return horse;
     }
 }

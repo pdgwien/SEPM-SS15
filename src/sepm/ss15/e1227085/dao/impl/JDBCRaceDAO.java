@@ -148,7 +148,9 @@ public class JDBCRaceDAO implements IRaceDAO {
         } catch (SQLException e) {
             LOGGER.error(e);
         }
-
+        if (raceEntryList == null) {
+            throw new IllegalArgumentException("ID could not be found");
+        }
         return raceEntryList;
     }
 }

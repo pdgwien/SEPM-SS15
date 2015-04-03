@@ -13,17 +13,17 @@ import java.sql.SQLException;
  * Created by Patrick Grosslicht <e1227085@student.tuwien.ac.at>.
  */
 public class JDBCRaceDAOTest extends AbstractJDBCRaceDAOTest {
-    private DataSource dataSource;
+  private DataSource dataSource;
 
-    @Before
-    public void setUp() throws SQLException {
-        IRaceDAO raceDAO = new JDBCRaceDAO();
-        setJDBCRaceDAO(raceDAO);
-        dataSource.getConnection().setAutoCommit(false);
-    }
+  @Before
+  public void setUp() throws SQLException {
+    IRaceDAO raceDAO = new JDBCRaceDAO();
+    setJDBCRaceDAO(raceDAO);
+    DataSource.getConnection().setAutoCommit(false);
+  }
 
-    @After
-    public void tearDown() throws SQLException {
-        dataSource.getConnection().rollback();
-    }
+  @After
+  public void tearDown() throws SQLException {
+    DataSource.getConnection().rollback();
+  }
 }

@@ -11,73 +11,74 @@ import java.util.List;
  * Created by Patrick Grosslicht <e1227085@student.tuwien.ac.at>.
  */
 public class JDBCJockeyService implements IJockeyService {
-    private IJockeyDAO jockeyDAO = new JDBCJockeyDAO();
-    /**
-     * Create a jockey.
-     *
-     * @param jockey the jockey
-     * @return the jockey
-     * @throws IllegalArgumentException if argument is not acceptable
-     */
-    @Override
-    public Jockey create(Jockey jockey) throws IllegalArgumentException {
-        return jockeyDAO.create(jockey);
-    }
+  private IJockeyDAO jockeyDAO = new JDBCJockeyDAO();
 
-    /**
-     * Delete a jockey.
-     *
-     * @param jockey the jockey
-     * @return the jockey
-     * @throws IllegalArgumentException if argument is not acceptable
-     */
-    @Override
-    public Jockey delete(Jockey jockey) throws IllegalArgumentException {
-        return jockeyDAO.delete(jockey);
-    }
+  /**
+   * Create a jockey.
+   *
+   * @param jockey the jockey
+   * @return the jockey
+   * @throws IllegalArgumentException if argument is not acceptable
+   */
+  @Override
+  public Jockey create(Jockey jockey) throws IllegalArgumentException {
+    return jockeyDAO.create(jockey);
+  }
 
-    /**
-     * Update a jockey.
-     *
-     * @param jockey the jockey
-     * @return the jockey
-     * @throws IllegalArgumentException if argument is not acceptable
-     */
-    @Override
-    public Jockey update(Jockey jockey) throws IllegalArgumentException {
-        return jockeyDAO.update(jockey);
-    }
+  /**
+   * Delete a jockey.
+   *
+   * @param jockey the jockey
+   * @return the jockey
+   * @throws IllegalArgumentException if argument is not acceptable
+   */
+  @Override
+  public Jockey delete(Jockey jockey) throws IllegalArgumentException {
+    return jockeyDAO.delete(jockey);
+  }
 
-    /**
-     * Find all jockeys.
-     *
-     * @return the list
-     */
-    @Override
-    public List<Jockey> findAll() {
-        return jockeyDAO.findAll();
-    }
+  /**
+   * Update a jockey.
+   *
+   * @param jockey the jockey
+   * @return the jockey
+   * @throws IllegalArgumentException if argument is not acceptable
+   */
+  @Override
+  public Jockey update(Jockey jockey) throws IllegalArgumentException {
+    return jockeyDAO.update(jockey);
+  }
 
-    /**
-     * Find jockeys by name.
-     *
-     * @param name the name
-     * @return the list
-     */
-    @Override
-    public List<Jockey> findByName(String name) {
-        return jockeyDAO.findByName(name);
-    }
+  /**
+   * Find all jockeys.
+   *
+   * @return the list
+   */
+  @Override
+  public List<Jockey> findAll() {
+    return jockeyDAO.findAll();
+  }
 
-    /**
-     * Find one jockey by id.
-     *
-     * @param id the id
-     * @return the jockey
-     * @throws IllegalArgumentException if ID is not found
-     */
-    @Override
-    public Jockey findById(long id) throws IllegalArgumentException {
-        return jockeyDAO.findById(id);
-    }
+  /**
+   * Find jockeys by name.
+   *
+   * @param name the name
+   * @return the list
+   */
+  @Override
+  public List<Jockey> findByName(String name) {
+    return jockeyDAO.findByName(name);
+  }
+
+  /**
+   * Find one jockey by id.
+   *
+   * @param id the id
+   * @return the jockey
+   * @throws IllegalArgumentException if ID is not found
+   */
+  @Override
+  public Jockey findById(long id) throws IllegalArgumentException {
+    return jockeyDAO.findById(id);
+  }
 }

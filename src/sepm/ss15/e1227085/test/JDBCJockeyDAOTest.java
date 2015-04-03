@@ -13,17 +13,17 @@ import java.sql.SQLException;
  * Created by Patrick Grosslicht <e1227085@student.tuwien.ac.at>.
  */
 public class JDBCJockeyDAOTest extends AbstractJDBCJockeyDAOTest {
-    private DataSource dataSource;
+  private DataSource dataSource;
 
-    @Before
-    public void setUp() throws SQLException {
-        IJockeyDAO jockeyDAO = new JDBCJockeyDAO();
-        setJDBCJockeyDAO(jockeyDAO);
-        dataSource.getConnection().setAutoCommit(false);
-    }
+  @Before
+  public void setUp() throws SQLException {
+    IJockeyDAO jockeyDAO = new JDBCJockeyDAO();
+    setJDBCJockeyDAO(jockeyDAO);
+    DataSource.getConnection().setAutoCommit(false);
+  }
 
-    @After
-    public void tearDown() throws SQLException {
-        dataSource.getConnection().rollback();
-    }
+  @After
+  public void tearDown() throws SQLException {
+    DataSource.getConnection().rollback();
+  }
 }

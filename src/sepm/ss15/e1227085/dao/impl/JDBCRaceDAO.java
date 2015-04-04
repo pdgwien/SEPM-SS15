@@ -28,6 +28,9 @@ public class JDBCRaceDAO implements IRaceDAO {
   private PreparedStatement deleteStmt;
   private PreparedStatement findAllIdsStmt;
   private PreparedStatement findAllRaceEntriesStmt;
+  private PreparedStatement findEntriesForHorseStmt;
+  private PreparedStatement findEntriesForJockeyStmt;
+  private PreparedStatement findEntriesForHorseAndJockeyStmt;
 
   public JDBCRaceDAO() {
     try {
@@ -36,6 +39,9 @@ public class JDBCRaceDAO implements IRaceDAO {
       deleteStmt = conn.prepareStatement("DELETE FROM Race WHERE id = ?");
       findAllIdsStmt = conn.prepareStatement("SELECT DISTINCT(id) FROM Race");
       findAllRaceEntriesStmt = conn.prepareStatement("SELECT * FROM Race WHERE id = ?");
+      findEntriesForHorseStmt = conn.prepareStatement("SELECT * FROM Race WHERE horse = ? ORDER BY rank");
+      findEntriesForJockeyStmt = conn.prepareStatement("SELECT * FROM Race WHERE jockey = ? ORDER BY rank");
+      findEntriesForHorseAndJockeyStmt = conn.prepareStatement("SELECT * FROM Race WHERE horse = ? AND jockey = ? ORDER BY rank");
     } catch (SQLException e) {
       LOGGER.error(e);
       throw new RuntimeException("Something is wrong, cannot prepare SQL statements.");
@@ -150,6 +156,86 @@ public class JDBCRaceDAO implements IRaceDAO {
     }
     if (raceEntryList == null) {
       throw new IllegalArgumentException("ID could not be found");
+    }
+    return raceEntryList;
+  }
+
+  /**
+   * Find all entries for horse.
+   *
+   * @param horse the horse
+   * @return the list
+   */
+  @Override
+  public List<RaceEntry> findEntriesForHorse(Horse horse) {
+    IJockeyDAO jockeyDAO = new JDBCJockeyDAO();
+    ArrayList<RaceEntry> raceEntryList = null;
+    try {
+      findEntriesForHorseStmt.setObject(1, horse.getId());
+      ResultSet rs = findEntriesForHorseStmt.executeQuery();
+      raceEntryList = new ArrayList<RaceEntry>();
+      RaceEntry tmpRaceEntry = null;
+      Jockey tmpJockey = null;
+      while (rs.next()) {
+        tmpJockey = jockeyDAO.findById(rs.getLong(3));
+        tmpRaceEntry = new RaceEntry(horse, tmpJockey, rs.getDouble(4), rs.getDouble(5), rs.getDouble(6), rs.getInt(7));
+        raceEntryList.add(tmpRaceEntry);
+      }
+    } catch (SQLException e) {
+      LOGGER.error(e);
+    }
+    return raceEntryList;
+  }
+
+  /**
+   * Find all entries for jockey.
+   *
+   * @param jockey the jockey
+   * @return the list
+   */
+  @Override
+  public List<RaceEntry> findEntriesForJockey(Jockey jockey) {
+    IHorseDAO horseDAO = new JDBCHorseDAO();
+    ArrayList<RaceEntry> raceEntryList = null;
+    try {
+      findEntriesForJockeyStmt.setObject(1, jockey.getId());
+      ResultSet rs = findEntriesForJockeyStmt.executeQuery();
+      raceEntryList = new ArrayList<RaceEntry>();
+      RaceEntry tmpRaceEntry = null;
+      Horse tmpHorse = null;
+      while (rs.next()) {
+        tmpHorse = horseDAO.findById(rs.getLong(2));
+        tmpRaceEntry = new RaceEntry(tmpHorse, jockey, rs.getDouble(4), rs.getDouble(5), rs.getDouble(6), rs.getInt(7));
+        raceEntryList.add(tmpRaceEntry);
+      }
+    } catch (SQLException e) {
+      LOGGER.error(e);
+    }
+    return raceEntryList;
+  }
+
+  /**
+   * Find all entries for horse and jockey.
+   *
+   * @param horse  the horse
+   * @param jockey the jockey
+   * @return the list
+   */
+  @Override
+  public List<RaceEntry> findEntriesForHorseAndJockey(Horse horse, Jockey jockey) {
+    ArrayList<RaceEntry> raceEntryList = null;
+    try {
+      findEntriesForHorseAndJockeyStmt.setObject(1, horse.getId());
+      findEntriesForHorseAndJockeyStmt.setObject(2, jockey.getId());
+      ResultSet rs = findEntriesForHorseAndJockeyStmt.executeQuery();
+      raceEntryList = new ArrayList<RaceEntry>();
+      RaceEntry tmpRaceEntry = null;
+      while (rs.next()) {
+        tmpRaceEntry = new RaceEntry(horse, jockey, rs.getDouble(4), rs.getDouble(5), rs.getDouble(6), rs.getInt(7));
+        raceEntryList.add(tmpRaceEntry);
+      }
+    } catch (SQLException e) {
+      LOGGER.error(e);
     }
     return raceEntryList;
   }

@@ -208,7 +208,7 @@ public class RaceDialogController {
       alert.setTitle("Fehler");
       alert.setHeaderText(null);
       alert.setContentText("Du musst erst etwas auswählen, bevor du es löschen kannst!");
-      alert.showAndWait();
+      alert.show();
     }
   }
 
@@ -234,7 +234,7 @@ public class RaceDialogController {
       alert.setHeaderText("Bitte falsche Felder ausbessern.");
       alert.setContentText(errorMessage);
 
-      alert.showAndWait();
+      alert.show();
 
       return false;
     }

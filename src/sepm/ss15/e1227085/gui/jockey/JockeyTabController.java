@@ -115,11 +115,7 @@ public class JockeyTabController {
       selectedIndex = filteredJockeyList.getSourceIndex(selectedIndex);
       jockeyList.remove(selectedIndex);
     } else {
-      Alert alert = new Alert(Alert.AlertType.ERROR);
-      alert.setTitle("Fehler");
-      alert.setHeaderText(null);
-      alert.setContentText("Du musst erst etwas auswählen, bevor du es löschen kannst!");
-      alert.showAndWait();
+      showError("Du musst erst etwas auswählen, bevor du es löschen kannst!");
     }
   }
 
@@ -132,11 +128,7 @@ public class JockeyTabController {
     if (selectedJockey != null) {
       this.showJockeyEditDialog(selectedJockey, false);
     } else {
-      Alert alert = new Alert(Alert.AlertType.ERROR);
-      alert.setTitle("Fehler");
-      alert.setHeaderText(null);
-      alert.setContentText("Du musst erst etwas auswählen, bevor du es ändern kannst!");
-      alert.showAndWait();
+      showError("Du musst erst etwas auswählen, bevor du es ändern kannst!");
     }
   }
 
@@ -149,5 +141,18 @@ public class JockeyTabController {
     if (this.showJockeyEditDialog(tmpJockey, true)) {
       jockeyList.add(tmpJockey);
     }
+  }
+
+  /**
+   * Shows an error dialogue
+   *
+   * @param message to show
+   */
+  private void showError(String message) {
+    Alert alert = new Alert(Alert.AlertType.ERROR);
+    alert.setTitle("Fehler");
+    alert.setHeaderText(null);
+    alert.setContentText(message);
+    alert.show();
   }
 }

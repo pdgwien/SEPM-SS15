@@ -95,7 +95,7 @@ public class HorseTabController {
       controller.setNewHorseCreation(newHorseCreation);
       controller.setHorse(horse);
 
-      dialogStage.showAndWait();
+      dialogStage.show();
       return controller.isOkClicked();
     } catch (IOException e) {
       LOGGER.error(e);
@@ -120,11 +120,7 @@ public class HorseTabController {
         horseList.remove(selectedIndex);
       }
     } else {
-      Alert alert = new Alert(Alert.AlertType.ERROR);
-      alert.setTitle("Fehler");
-      alert.setHeaderText(null);
-      alert.setContentText("Du musst erst etwas auswählen, bevor du es löschen kannst!");
-      alert.showAndWait();
+      showError("Du musst erst etwas auswählen, bevor du es löschen kannst!");
     }
   }
 
@@ -137,11 +133,7 @@ public class HorseTabController {
     if (selectedHorse != null) {
       this.showHorseEditDialog(selectedHorse, false);
     } else {
-      Alert alert = new Alert(Alert.AlertType.ERROR);
-      alert.setTitle("Fehler");
-      alert.setHeaderText(null);
-      alert.setContentText("Du musst erst etwas auswählen, bevor du es ändern kannst!");
-      alert.showAndWait();
+      showError("Du musst erst etwas auswählen, bevor du es löschen kannst!");
     }
   }
 
@@ -154,5 +146,18 @@ public class HorseTabController {
     if (this.showHorseEditDialog(tmpHorse, true)) {
       horseList.add(tmpHorse);
     }
+  }
+
+  /**
+   * Shows an error dialogue
+   *
+   * @param message to show
+   */
+  private void showError(String message) {
+    Alert alert = new Alert(Alert.AlertType.ERROR);
+    alert.setTitle("Fehler");
+    alert.setHeaderText(null);
+    alert.setContentText(message);
+    alert.show();
   }
 }

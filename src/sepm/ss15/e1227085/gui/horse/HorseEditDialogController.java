@@ -177,7 +177,7 @@ public class HorseEditDialogController {
       alert.setHeaderText("Bitte falsche Felder ausbessern.");
       alert.setContentText(errorMessage);
 
-      alert.showAndWait();
+      alert.show();
 
       return false;
     }

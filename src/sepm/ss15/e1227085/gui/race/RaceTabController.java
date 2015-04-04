@@ -139,7 +139,7 @@ public class RaceTabController {
       alert.setTitle("Fehler");
       alert.setHeaderText(null);
       alert.setContentText("Du musst erst etwas auswählen, bevor du es anzeigen kannst!");
-      alert.showAndWait();
+      alert.show();
     }
   }
 

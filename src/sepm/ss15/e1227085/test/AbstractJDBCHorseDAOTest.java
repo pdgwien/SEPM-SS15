@@ -88,4 +88,36 @@ public abstract class AbstractJDBCHorseDAOTest {
     List<Horse> horses = horseDAO.findByName("Gudrun");
     org.junit.Assert.assertTrue(horses.isEmpty());
   }
+
+  @Test
+  public void findAllShouldFindAll() {
+    Horse horse = new Horse("Adam", "/home/test/test.png", 75.47, 85.48, false);
+    horseDAO.create(horse);
+    List<Horse> horses = horseDAO.findAll();
+    org.junit.Assert.assertFalse(horses.isEmpty());
+    org.junit.Assert.assertTrue(horses.contains(horse));
+  }
+
+  @Test
+  public void findAllShouldNotFindNonExistingHorses() {
+    Horse horse = new Horse("Günther", "/home/test/test.png", 45.47, 83.48, false);
+    List<Horse> horses = horseDAO.findAll();
+    org.junit.Assert.assertFalse(horses.contains(horse));
+  }
+
+  @Test
+  public void findByIdShouldFindMatchingItems() {
+    Horse horse = new Horse("Bertold", "/home/test/test.png", 75.47, 85.48, false);
+    Horse horse2 = new Horse("Günther", "/home/test/test.png", 45.47, 83.48, false);
+    horseDAO.create(horse);
+    horseDAO.create(horse2);
+    Horse foundHorse = horseDAO.findById(horse.getId());
+    org.junit.Assert.assertEquals(foundHorse, horse);
+    org.junit.Assert.assertNotEquals(foundHorse, horse2);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void findByIdShouldThrowExceptionIfIdNotExists() {
+    Horse foundHorse = horseDAO.findById(999999999);
+  }
 }

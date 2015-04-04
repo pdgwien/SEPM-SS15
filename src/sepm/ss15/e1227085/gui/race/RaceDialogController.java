@@ -30,6 +30,7 @@ import java.util.Optional;
  */
 public class RaceDialogController {
   private static final Logger LOGGER = LogManager.getLogger();
+  private final Validator validator = new Validator();
   @FXML
   private TextField idField;
   @FXML
@@ -58,7 +59,6 @@ public class RaceDialogController {
   private Stage dialogStage;
   private boolean newRaceCreation;
   private boolean okClicked;
-  private Validator validator = new Validator();
   private ObservableList<RaceEntry> raceEntriesList;
   private SortedList<RaceEntry> sortedRaceEntriesList;
 
@@ -71,9 +71,9 @@ public class RaceDialogController {
     raceService = new JDBCRaceService();
     horseColumn.setCellValueFactory(cellData -> cellData.getValue().getHorse().nameProperty());
     jockeyColumn.setCellValueFactory(cellData -> cellData.getValue().getJockey().nameProperty());
-    talentColumn.setCellValueFactory(new PropertyValueFactory<RaceEntry, String>("talent"));
-    luckyNumberColumn.setCellValueFactory(new PropertyValueFactory<RaceEntry, String>("luckyNumber"));
-    speedColumn.setCellValueFactory(new PropertyValueFactory<RaceEntry, String>("speed"));
+    talentColumn.setCellValueFactory(new PropertyValueFactory<>("talent"));
+    luckyNumberColumn.setCellValueFactory(new PropertyValueFactory<>("luckyNumber"));
+    speedColumn.setCellValueFactory(new PropertyValueFactory<>("speed"));
     speedColumn.setSortType(TableColumn.SortType.DESCENDING);
   }
 

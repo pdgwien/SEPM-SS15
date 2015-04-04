@@ -16,6 +16,7 @@ import sepm.ss15.e1227085.service.impl.JDBCJockeyService;
  */
 public class JockeyEditDialogController {
   private static final Logger LOGGER = LogManager.getLogger();
+  private final Validator validator = new Validator();
   @FXML
   private TextField nameField;
   @FXML
@@ -27,7 +28,6 @@ public class JockeyEditDialogController {
   private Stage dialogStage;
   private boolean newJockeyCreation;
   private boolean okClicked;
-  private Validator validator = new Validator();
 
   /**
    * Initializes the controller class. This method is automatically called

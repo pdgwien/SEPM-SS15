@@ -61,8 +61,7 @@ public class JDBCRaceDAO implements IRaceDAO {
     }
     List<RaceEntry> raceEntries = race.getEntries();
     try {
-      for (int i = 0; i < raceEntries.size(); i++) {
-        RaceEntry raceEntry = raceEntries.get(i);
+      for (RaceEntry raceEntry : raceEntries) {
         createStmt.setObject(1, race.getId());
         createStmt.setLong(2, raceEntry.getHorse().getId());
         createStmt.setLong(3, raceEntry.getJockey().getId());
@@ -116,8 +115,8 @@ public class JDBCRaceDAO implements IRaceDAO {
     ArrayList<Race> raceList = null;
     try {
       ResultSet rs = findAllIdsStmt.executeQuery();
-      raceList = new ArrayList<Race>();
-      Race tmpRace = null;
+      raceList = new ArrayList<>();
+      Race tmpRace;
       while (rs.next()) {
         UUID id = (UUID) rs.getObject(1);
         tmpRace = new Race(id, findAllRaceEntriesById(id));
@@ -141,10 +140,10 @@ public class JDBCRaceDAO implements IRaceDAO {
     try {
       findAllRaceEntriesStmt.setObject(1, id);
       ResultSet rs = findAllRaceEntriesStmt.executeQuery();
-      raceEntryList = new ArrayList<RaceEntry>();
-      RaceEntry tmpRaceEntry = null;
-      Horse tmpHorse = null;
-      Jockey tmpJockey = null;
+      raceEntryList = new ArrayList<>();
+      RaceEntry tmpRaceEntry;
+      Horse tmpHorse;
+      Jockey tmpJockey;
       while (rs.next()) {
         tmpHorse = horseDAO.findById(rs.getLong(2));
         tmpJockey = jockeyDAO.findById(rs.getLong(3));
@@ -173,9 +172,9 @@ public class JDBCRaceDAO implements IRaceDAO {
     try {
       findEntriesForHorseStmt.setObject(1, horse.getId());
       ResultSet rs = findEntriesForHorseStmt.executeQuery();
-      raceEntryList = new ArrayList<RaceEntry>();
-      RaceEntry tmpRaceEntry = null;
-      Jockey tmpJockey = null;
+      raceEntryList = new ArrayList<>();
+      RaceEntry tmpRaceEntry;
+      Jockey tmpJockey;
       while (rs.next()) {
         tmpJockey = jockeyDAO.findById(rs.getLong(3));
         tmpRaceEntry = new RaceEntry(horse, tmpJockey, rs.getDouble(4), rs.getDouble(5), rs.getDouble(6), rs.getInt(7));
@@ -200,9 +199,9 @@ public class JDBCRaceDAO implements IRaceDAO {
     try {
       findEntriesForJockeyStmt.setObject(1, jockey.getId());
       ResultSet rs = findEntriesForJockeyStmt.executeQuery();
-      raceEntryList = new ArrayList<RaceEntry>();
-      RaceEntry tmpRaceEntry = null;
-      Horse tmpHorse = null;
+      raceEntryList = new ArrayList<>();
+      RaceEntry tmpRaceEntry;
+      Horse tmpHorse;
       while (rs.next()) {
         tmpHorse = horseDAO.findById(rs.getLong(2));
         tmpRaceEntry = new RaceEntry(tmpHorse, jockey, rs.getDouble(4), rs.getDouble(5), rs.getDouble(6), rs.getInt(7));
@@ -228,8 +227,8 @@ public class JDBCRaceDAO implements IRaceDAO {
       findEntriesForHorseAndJockeyStmt.setObject(1, horse.getId());
       findEntriesForHorseAndJockeyStmt.setObject(2, jockey.getId());
       ResultSet rs = findEntriesForHorseAndJockeyStmt.executeQuery();
-      raceEntryList = new ArrayList<RaceEntry>();
-      RaceEntry tmpRaceEntry = null;
+      raceEntryList = new ArrayList<>();
+      RaceEntry tmpRaceEntry;
       while (rs.next()) {
         tmpRaceEntry = new RaceEntry(horse, jockey, rs.getDouble(4), rs.getDouble(5), rs.getDouble(6), rs.getInt(7));
         raceEntryList.add(tmpRaceEntry);

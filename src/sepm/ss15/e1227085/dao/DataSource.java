@@ -12,7 +12,7 @@ import java.sql.SQLException;
  */
 public class DataSource {
   private static final Logger LOGGER = LogManager.getLogger();
-  private static DataSource instance = new DataSource();
+  private static final DataSource instance = new DataSource();
   private Connection connection;
 
   private DataSource() {
@@ -23,7 +23,7 @@ public class DataSource {
       throw new RuntimeException();
     }
     try {
-      this.connection = DriverManager.getConnection("jdbc:h2:~/sepm", "sa", "");
+      this.connection = DriverManager.getConnection("jdbc:h2:./db", "sa", "");
     } catch (SQLException e) {
       LOGGER.error(e);
       throw new RuntimeException();

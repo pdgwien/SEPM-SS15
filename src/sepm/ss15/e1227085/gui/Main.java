@@ -14,7 +14,6 @@ public class Main extends Application {
 
   private static final Logger LOGGER = LogManager.getLogger();
   private Stage primaryStage;
-  private TabPane rootLayout;
 
   public static void main(String[] args) {
     launch(args);
@@ -36,7 +35,7 @@ public class Main extends Application {
       // Load root layout from fxml file.
       FXMLLoader loader = new FXMLLoader();
       loader.setLocation(Main.class.getResource("RootLayout.fxml"));
-      rootLayout = loader.load();
+      TabPane rootLayout = loader.load();
 
       // Show the scene containing the root layout.
       Scene scene = new Scene(rootLayout);

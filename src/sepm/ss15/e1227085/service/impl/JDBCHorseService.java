@@ -11,7 +11,7 @@ import java.util.List;
  * Created by Patrick Grosslicht <e1227085@student.tuwien.ac.at>.
  */
 public class JDBCHorseService implements IHorseService {
-  private IHorseDAO horseDAO = new JDBCHorseDAO();
+  private final IHorseDAO horseDAO = new JDBCHorseDAO();
 
   /**
    * Create a horse.

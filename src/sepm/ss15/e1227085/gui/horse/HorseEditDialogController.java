@@ -22,6 +22,7 @@ import java.util.Arrays;
  */
 public class HorseEditDialogController {
   private static final Logger LOGGER = LogManager.getLogger();
+  private final Validator validator = new Validator();
   @FXML
   private TextField nameField;
   @FXML
@@ -37,7 +38,6 @@ public class HorseEditDialogController {
   private boolean okClicked;
   private Image image;
   private String imagePath;
-  private Validator validator = new Validator();
 
   /**
    * Initializes the controller class. This method is automatically called

@@ -133,8 +133,8 @@ public class JDBCJockeyDAO implements IJockeyDAO {
     ArrayList<Jockey> jockeyList = null;
     try {
       ResultSet rs = findAllStmt.executeQuery();
-      jockeyList = new ArrayList<Jockey>();
-      Jockey tmpJockey = null;
+      jockeyList = new ArrayList<>();
+      Jockey tmpJockey;
       while (rs.next()) {
         tmpJockey = new Jockey(rs.getLong(1), rs.getString(2), rs.getDouble(3), rs.getInt(4), rs.getBoolean(5));
         jockeyList.add(tmpJockey);
@@ -157,8 +157,8 @@ public class JDBCJockeyDAO implements IJockeyDAO {
     try {
       findByNameStmt.setString(1, name);
       ResultSet rs = findByNameStmt.executeQuery();
-      jockeyList = new ArrayList<Jockey>();
-      Jockey tmpJockey = null;
+      jockeyList = new ArrayList<>();
+      Jockey tmpJockey;
       while (rs.next()) {
         tmpJockey = new Jockey(rs.getLong(1), rs.getString(2), rs.getDouble(3), rs.getInt(4), rs.getBoolean(5));
         jockeyList.add(tmpJockey);

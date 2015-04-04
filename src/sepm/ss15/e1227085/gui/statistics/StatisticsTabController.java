@@ -46,10 +46,6 @@ public class StatisticsTabController {
   private TableColumn<Jockey, Double> talentColumn;
   @FXML
   private TableColumn<Jockey, Integer> ageColumn;
-  private IHorseService horseService;
-  private IJockeyService jockeyService;
-  private ObservableList<Horse> horseList;
-  private ObservableList<Jockey> jockeyList;
 
   /**
    * Automatically called when tab is created, binds the correct data to the columns and adds listeners
@@ -57,18 +53,18 @@ public class StatisticsTabController {
    */
   @FXML
   private void initialize() {
-    horseService = new JDBCHorseService();
+    IHorseService horseService = new JDBCHorseService();
     horseNameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-    maxSpeedColumn.setCellValueFactory(new PropertyValueFactory<Horse, Double>("maxSpeed"));
-    minSpeedColumn.setCellValueFactory(new PropertyValueFactory<Horse, Double>("minSpeed"));
-    horseList = FXCollections.observableList(horseService.findAll());
+    maxSpeedColumn.setCellValueFactory(new PropertyValueFactory<>("maxSpeed"));
+    minSpeedColumn.setCellValueFactory(new PropertyValueFactory<>("minSpeed"));
+    ObservableList<Horse> horseList = FXCollections.observableList(horseService.findAll());
     horseTable.setItems(horseList);
 
-    jockeyService = new JDBCJockeyService();
+    IJockeyService jockeyService = new JDBCJockeyService();
     jockeyNameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-    talentColumn.setCellValueFactory(new PropertyValueFactory<Jockey, Double>("talent"));
-    ageColumn.setCellValueFactory(new PropertyValueFactory<Jockey, Integer>("age"));
-    jockeyList = FXCollections.observableList(jockeyService.findAll());
+    talentColumn.setCellValueFactory(new PropertyValueFactory<>("talent"));
+    ageColumn.setCellValueFactory(new PropertyValueFactory<>("age"));
+    ObservableList<Jockey> jockeyList = FXCollections.observableList(jockeyService.findAll());
     jockeyTable.setItems(jockeyList);
   }
 

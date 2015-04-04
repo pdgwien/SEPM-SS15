@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
  * Created by Patrick Grosslicht <e1227085@student.tuwien.ac.at>.
  */
 public class Race {
-  private UUID id;
+  private final UUID id;
   private List<RaceEntry> entries;
 
   /**

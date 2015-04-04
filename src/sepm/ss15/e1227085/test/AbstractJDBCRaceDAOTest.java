@@ -44,7 +44,7 @@ public abstract class AbstractJDBCRaceDAOTest {
 
   @Test
   public void createWithValidParametersShouldPersist() {
-    List<RaceEntry> raceEntries = new ArrayList<RaceEntry>();
+    List<RaceEntry> raceEntries = new ArrayList<>();
     RaceEntry raceEntry = new RaceEntry(horseDAO.findById(1), jockeyDAO.findById(1));
     raceEntry.setRank(1);
     RaceEntry raceEntry2 = new RaceEntry(horseDAO.findById(2), jockeyDAO.findById(2));

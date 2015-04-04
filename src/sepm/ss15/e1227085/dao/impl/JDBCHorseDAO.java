@@ -135,8 +135,8 @@ public class JDBCHorseDAO implements IHorseDAO {
     ArrayList<Horse> horseList = null;
     try {
       ResultSet rs = findAllStmt.executeQuery();
-      horseList = new ArrayList<Horse>();
-      Horse tmpHorse = null;
+      horseList = new ArrayList<>();
+      Horse tmpHorse;
       while (rs.next()) {
         tmpHorse = new Horse(rs.getLong(1), rs.getString(2), rs.getString(3), rs.getDouble(4), rs.getDouble(5), rs.getBoolean(6));
         horseList.add(tmpHorse);
@@ -159,8 +159,8 @@ public class JDBCHorseDAO implements IHorseDAO {
     try {
       findByNameStmt.setString(1, name + "%");
       ResultSet rs = findByNameStmt.executeQuery();
-      horseList = new ArrayList<Horse>();
-      Horse tmpHorse = null;
+      horseList = new ArrayList<>();
+      Horse tmpHorse;
       while (rs.next()) {
         tmpHorse = new Horse(rs.getLong(1), rs.getString(2), rs.getString(3), rs.getDouble(4), rs.getDouble(5), rs.getBoolean(6));
         horseList.add(tmpHorse);

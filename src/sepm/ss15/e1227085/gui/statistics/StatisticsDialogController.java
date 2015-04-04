@@ -20,7 +20,6 @@ public class StatisticsDialogController {
   @FXML
   private TextArea statisticsField;
   private IRaceService raceService;
-  private Map<Integer, Integer> ranks;
   private Stage dialogStage;
 
   /**
@@ -42,12 +41,13 @@ public class StatisticsDialogController {
   }
 
   /**
-   * Sets the race to be edited in the dialog.
+   * Shows stats for horse, jockey, or horse and jockey
    *
-   * @param race
+   * @param horse horse to show stats for, can be null
+   * @param jockey jockey to show stats for, can be null
    */
   public void setStatistics(Horse horse, Jockey jockey) {
-    ranks = raceService.getRankingsForHorseAndJockey(horse, jockey);
+    Map<Integer, Integer> ranks = raceService.getRankingsForHorseAndJockey(horse, jockey);
     String stats = "";
     for (Map.Entry<Integer, Integer> entry : ranks.entrySet()) {
       stats += "Rang: " + entry.getKey() + ", Anzahl: " + entry.getValue() + "\n";

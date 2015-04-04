@@ -30,6 +30,7 @@ import java.io.IOException;
  */
 public class JockeyTabController {
   private static final Logger LOGGER = LogManager.getLogger();
+  private final IJockeyService jockeyService = new JDBCJockeyService();
   @FXML
   private TableView<Jockey> jockeyTable;
   @FXML
@@ -40,7 +41,6 @@ public class JockeyTabController {
   private TableColumn<Jockey, Integer> ageColumn;
   @FXML
   private TextField filterField;
-  private IJockeyService jockeyService = new JDBCJockeyService();
   private ObservableList<Jockey> jockeyList;
   private FilteredList<Jockey> filteredJockeyList;
 
@@ -51,10 +51,10 @@ public class JockeyTabController {
   @FXML
   private void initialize() {
     nameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-    talentColumn.setCellValueFactory(new PropertyValueFactory<Jockey, Double>("talent"));
-    ageColumn.setCellValueFactory(new PropertyValueFactory<Jockey, Integer>("age"));
+    talentColumn.setCellValueFactory(new PropertyValueFactory<>("talent"));
+    ageColumn.setCellValueFactory(new PropertyValueFactory<>("age"));
     jockeyList = FXCollections.observableList(jockeyService.findAll());
-    filteredJockeyList = new FilteredList<Jockey>(jockeyList, jockey -> true);
+    filteredJockeyList = new FilteredList<>(jockeyList, jockey -> true);
 
     filterField.textProperty().addListener((observable, oldValue, newValue) -> {
       filteredJockeyList.setPredicate(jockey -> newValue == null

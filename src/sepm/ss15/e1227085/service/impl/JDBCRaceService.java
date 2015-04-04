@@ -16,7 +16,7 @@ import java.util.Map;
  * Created by Patrick Grosslicht <e1227085@student.tuwien.ac.at>.
  */
 public class JDBCRaceService implements IRaceService {
-  private IRaceDAO raceDAO = new JDBCRaceDAO();
+  private final IRaceDAO raceDAO = new JDBCRaceDAO();
 
   /**
    * Create race.

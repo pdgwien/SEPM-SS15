@@ -28,6 +28,7 @@ import java.util.Optional;
  */
 public class HorseTabController {
   private static final Logger LOGGER = LogManager.getLogger();
+  private final IHorseService horseService = new JDBCHorseService();
   @FXML
   private TableView<Horse> horseTable;
   @FXML
@@ -38,7 +39,6 @@ public class HorseTabController {
   private TableColumn<Horse, Double> minSpeedColumn;
   @FXML
   private TextField filterField;
-  private IHorseService horseService = new JDBCHorseService();
   private ObservableList<Horse> horseList;
   private FilteredList<Horse> filteredHorseList;
 
@@ -49,10 +49,10 @@ public class HorseTabController {
   @FXML
   private void initialize() {
     nameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-    maxSpeedColumn.setCellValueFactory(new PropertyValueFactory<Horse, Double>("maxSpeed"));
-    minSpeedColumn.setCellValueFactory(new PropertyValueFactory<Horse, Double>("minSpeed"));
+    maxSpeedColumn.setCellValueFactory(new PropertyValueFactory<>("maxSpeed"));
+    minSpeedColumn.setCellValueFactory(new PropertyValueFactory<>("minSpeed"));
     horseList = FXCollections.observableList(horseService.findAll());
-    filteredHorseList = new FilteredList<Horse>(horseList, horse -> true);
+    filteredHorseList = new FilteredList<>(horseList, horse -> true);
 
     filterField.textProperty().addListener((observable, oldValue, newValue) -> {
       filteredHorseList.setPredicate(horse -> newValue == null

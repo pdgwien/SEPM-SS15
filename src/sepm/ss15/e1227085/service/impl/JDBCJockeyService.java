@@ -11,7 +11,7 @@ import java.util.List;
  * Created by Patrick Grosslicht <e1227085@student.tuwien.ac.at>.
  */
 public class JDBCJockeyService implements IJockeyService {
-  private IJockeyDAO jockeyDAO = new JDBCJockeyDAO();
+  private final IJockeyDAO jockeyDAO = new JDBCJockeyDAO();
 
   /**
    * Create a jockey.

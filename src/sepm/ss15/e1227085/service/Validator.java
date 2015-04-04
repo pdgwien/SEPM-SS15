@@ -76,11 +76,8 @@ public class Validator {
   }
 
   public boolean isListUnique(List<?> list) {
-    Set inputSet = new HashSet(list);
-    if (inputSet.size() < list.size()) {
-      return false;
-    }
-    return true;
+    Set<?> inputSet = new HashSet<>(list);
+    return inputSet.size() == list.size();
   }
 
   /**
@@ -126,9 +123,6 @@ public class Validator {
    * @return the boolean
    */
   public boolean isNonEmptyString(String string) {
-    if (string == null || string.length() == 0) {
-      return false;
-    }
-    return true;
+    return !(string == null || string.length() == 0);
   }
 }

@@ -34,6 +34,7 @@ import java.util.UUID;
  */
 public class RaceTabController {
   private static final Logger LOGGER = LogManager.getLogger();
+  private final IRaceService raceService = new JDBCRaceService();
   @FXML
   private TableView<Race> raceTable;
   @FXML
@@ -48,7 +49,6 @@ public class RaceTabController {
   private TextField jockeySearchField;
   @FXML
   private TextField horseSearchField;
-  private IRaceService raceService = new JDBCRaceService();
   private ObservableList<Race> raceList;
   private FilteredList<Race> filteredRaceList;
 
@@ -58,12 +58,12 @@ public class RaceTabController {
    */
   @FXML
   private void initialize() {
-    nameColumn.setCellValueFactory(new PropertyValueFactory<Race, UUID>("id"));
-    horsesColumn.setCellValueFactory(new PropertyValueFactory<Race, String>("horsesNames"));
-    jockeysColumn.setCellValueFactory(new PropertyValueFactory<Race, String>("jockeysNames"));
+    nameColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+    horsesColumn.setCellValueFactory(new PropertyValueFactory<>("horsesNames"));
+    jockeysColumn.setCellValueFactory(new PropertyValueFactory<>("jockeysNames"));
     raceList = FXCollections.observableList(raceService.findAll());
 
-    filteredRaceList = new FilteredList<Race>(raceList, race -> true);
+    filteredRaceList = new FilteredList<>(raceList, race -> true);
 
     idSearchField.textProperty().addListener((observable, oldValue, newValue) -> {
       filteredRaceList.setPredicate(race -> race.getId().toString().toLowerCase().contains(newValue.toLowerCase())
@@ -148,7 +148,7 @@ public class RaceTabController {
    */
   @FXML
   private void handleNewRace() {
-    List<RaceEntry> entries = new ArrayList<RaceEntry>();
+    List<RaceEntry> entries = new ArrayList<>();
     Race tmpRace = new Race(entries);
     if (this.showRaceNewDialog(tmpRace, true)) {
       raceList.add(tmpRace);

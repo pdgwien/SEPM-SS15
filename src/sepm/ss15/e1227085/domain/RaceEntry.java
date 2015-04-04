@@ -12,6 +12,8 @@ public class RaceEntry {
   private double talent;
   private double speed;
   private double luckyNumber;
+  private int rank;
+
 
   /**
    * Instantiates a new Race entry.
@@ -21,13 +23,15 @@ public class RaceEntry {
    * @param talent      the talent
    * @param luckyNumber the lucky number
    * @param speed       the speed
+   * @param rank        the rank
    */
-  public RaceEntry(Horse horse, Jockey jockey, double talent, double speed, double luckyNumber) {
+  public RaceEntry(Horse horse, Jockey jockey, double talent, double speed, double luckyNumber, int rank) {
     this.horse = horse;
     this.jockey = jockey;
     this.talent = talent;
     this.speed = speed;
     this.luckyNumber = luckyNumber;
+    this.rank = rank;
   }
 
   /**
@@ -134,6 +138,24 @@ public class RaceEntry {
     this.speed = speed;
   }
 
+  /**
+   * Gets rank.
+   *
+   * @return the rank
+   */
+  public int getRank() {
+    return rank;
+  }
+
+  /**
+   * Sets rank.
+   *
+   * @param rank the rank
+   */
+  public void setRank(int rank) {
+    this.rank = rank;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -144,6 +166,7 @@ public class RaceEntry {
     if (Double.compare(raceEntry.luckyNumber, luckyNumber) != 0) return false;
     if (Double.compare(raceEntry.speed, speed) != 0) return false;
     if (Double.compare(raceEntry.talent, talent) != 0) return false;
+    if (Integer.compare(raceEntry.getRank(), rank) != 0) return false;
     if (!horse.equals(raceEntry.horse)) return false;
     if (!jockey.equals(raceEntry.jockey)) return false;
 
@@ -162,6 +185,7 @@ public class RaceEntry {
     result = 31 * result + (int) (temp ^ (temp >>> 32));
     temp = Double.doubleToLongBits(speed);
     result = 31 * result + (int) (temp ^ (temp >>> 32));
+    result = 31 * result + rank;
     return result;
   }
 
@@ -173,6 +197,7 @@ public class RaceEntry {
         ", talent=" + talent +
         ", luckyNumber=" + luckyNumber +
         ", speed=" + speed +
+        ", rank= " + rank +
         '}';
   }
 }

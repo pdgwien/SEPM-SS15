@@ -1,7 +1,9 @@
 package sepm.ss15.e1227085.gui.race;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -41,13 +43,15 @@ public class RaceDialogController {
   @FXML
   private TableColumn<RaceEntry, String> jockeyColumn;
   @FXML
-  private TableColumn<Double, String> talentColumn;
+  private TableColumn<RaceEntry, String> talentColumn;
   @FXML
   private TableColumn<RaceEntry, String> horseColumn;
   @FXML
-  private TableColumn<Double, String> luckyNumberColumn;
+  private TableColumn<RaceEntry, String> luckyNumberColumn;
   @FXML
-  private TableColumn<Double, String> speedColumn;
+  private TableColumn<RaceEntry, String> speedColumn;
+  @FXML
+  private TextField winnerField;
   private IRaceService raceService;
   private Race race;
   private List<RaceEntry> raceEntries;
@@ -56,7 +60,7 @@ public class RaceDialogController {
   private boolean okClicked;
   private Validator validator = new Validator();
   private ObservableList<RaceEntry> raceEntriesList;
-  //TODO: SortedList - immer nach Geschwindigkeit sortieren
+  private SortedList<RaceEntry> sortedRaceEntriesList;
 
   /**
    * Initializes the controller class. This method is automatically called
@@ -67,9 +71,10 @@ public class RaceDialogController {
     raceService = new JDBCRaceService();
     horseColumn.setCellValueFactory(cellData -> cellData.getValue().getHorse().nameProperty());
     jockeyColumn.setCellValueFactory(cellData -> cellData.getValue().getJockey().nameProperty());
-    talentColumn.setCellValueFactory(new PropertyValueFactory<Double, String>("talent"));
-    luckyNumberColumn.setCellValueFactory(new PropertyValueFactory<Double, String>("luckyNumber"));
-    speedColumn.setCellValueFactory(new PropertyValueFactory<Double, String>("speed"));
+    talentColumn.setCellValueFactory(new PropertyValueFactory<RaceEntry, String>("talent"));
+    luckyNumberColumn.setCellValueFactory(new PropertyValueFactory<RaceEntry, String>("luckyNumber"));
+    speedColumn.setCellValueFactory(new PropertyValueFactory<RaceEntry, String>("speed"));
+    speedColumn.setSortType(TableColumn.SortType.DESCENDING);
   }
 
   /**
@@ -90,8 +95,19 @@ public class RaceDialogController {
     this.race = race;
     this.raceEntries = race.getEntries();
     raceEntriesList = FXCollections.observableList(this.raceEntries);
-    raceEntriesTable.setItems(raceEntriesList);
-    //TODO: Sieger setzen
+    sortedRaceEntriesList = new SortedList<>(raceEntriesList);
+    sortedRaceEntriesList.comparatorProperty().bind(raceEntriesTable.comparatorProperty());
+    raceEntriesTable.setItems(sortedRaceEntriesList);
+    raceEntriesTable.getSortOrder().add(speedColumn);
+    raceEntriesList.addListener((ListChangeListener<RaceEntry>) change -> {
+      if (!sortedRaceEntriesList.isEmpty()) {
+        winnerField.setText(sortedRaceEntriesList.get(0).getJockey().getName() + " mit " + sortedRaceEntriesList.get(0).getHorse().getName());
+      } else {
+        winnerField.setText("");
+      }
+    });
+    if (!sortedRaceEntriesList.isEmpty())
+      winnerField.setText(sortedRaceEntriesList.get(0).getJockey().getName() + " mit " + sortedRaceEntriesList.get(0).getHorse().getName());
     idField.setText(race.getId().toString());
   }
 
@@ -122,6 +138,9 @@ public class RaceDialogController {
   @FXML
   private void handleOk() {
     if (isInputValid() && newRaceCreation) {
+      for (RaceEntry raceEntry : raceEntries) {
+        raceEntry.setRank(sortedRaceEntriesList.indexOf(raceEntry) + 1);
+      }
       race.setEntries(raceEntries);
       raceService.create(race);
       okClicked = true;

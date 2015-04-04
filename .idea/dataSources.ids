@@ -32,9 +32,12 @@
       <column name="TALENT" sqlType="DOUBLE" precision="17" scale="0" nullable="true" jdbcType="8"/>
       <column name="SPEED" sqlType="DOUBLE" precision="17" scale="0" nullable="true" jdbcType="8"/>
       <column name="LUCKYNUMBER" sqlType="DOUBLE" precision="17" scale="0" nullable="true" jdbcType="8"/>
+      <column name="RANK" sqlType="INTEGER" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <primary-key name="CONSTRAINT_264" columns="ID,HORSE,JOCKEY"/>
       <foreign-key name="CONSTRAINT_2" columns="HORSE" ref-table="HORSE" ref-schema="PUBLIC" ref-catalog="SEPM" ref-columns="ID" update-rule="1" delete-rule="1" deferrability="2"/>
       <foreign-key name="CONSTRAINT_26" columns="JOCKEY" ref-table="JOCKEY" ref-schema="PUBLIC" ref-catalog="SEPM" ref-columns="ID" update-rule="1" delete-rule="1" deferrability="2"/>
+      <index name="CONSTRAINT_26_INDEX_B" unique="false" columns="JOCKEY"/>
+      <index name="CONSTRAINT_2_INDEX_B" unique="false" columns="HORSE"/>
     </table>
   </data-source>
 </component>

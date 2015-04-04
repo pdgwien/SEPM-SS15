@@ -1,11 +1,11 @@
 package sepm.ss15.e1227085.test;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 import sepm.ss15.e1227085.dao.IHorseDAO;
 import sepm.ss15.e1227085.dao.IJockeyDAO;
 import sepm.ss15.e1227085.dao.IRaceDAO;
-import sepm.ss15.e1227085.dao.impl.JDBCHorseDAO;
-import sepm.ss15.e1227085.dao.impl.JDBCJockeyDAO;
 import sepm.ss15.e1227085.domain.Race;
 import sepm.ss15.e1227085.domain.RaceEntry;
 
@@ -17,10 +17,21 @@ import java.util.List;
  */
 public abstract class AbstractJDBCRaceDAOTest {
 
+  private static final Logger LOGGER = LogManager.getLogger();
   protected IRaceDAO raceDAO;
+  protected IHorseDAO horseDAO;
+  protected IJockeyDAO jockeyDAO;
 
   protected void setJDBCRaceDAO(IRaceDAO raceDAO) {
     this.raceDAO = raceDAO;
+  }
+
+  protected void setJDBCHorseDAO(IHorseDAO horseDAO) {
+    this.horseDAO = horseDAO;
+  }
+
+  protected void setJDBCJockeyDAO(IJockeyDAO jockeyDAO) {
+    this.jockeyDAO = jockeyDAO;
   }
 
   /**
@@ -33,11 +44,11 @@ public abstract class AbstractJDBCRaceDAOTest {
 
   @Test
   public void createWithValidParametersShouldPersist() {
-    IHorseDAO horseDAO = new JDBCHorseDAO();
-    IJockeyDAO jockeyDAO = new JDBCJockeyDAO();
     List<RaceEntry> raceEntries = new ArrayList<RaceEntry>();
-    RaceEntry raceEntry = new RaceEntry(horseDAO.findById(1), jockeyDAO.findById(1), 58.4, 43.5, 0.95);
-    RaceEntry raceEntry2 = new RaceEntry(horseDAO.findById(2), jockeyDAO.findById(2), 38.4, 53.5, 1.05);
+    RaceEntry raceEntry = new RaceEntry(horseDAO.findById(1), jockeyDAO.findById(1));
+    raceEntry.setRank(1);
+    RaceEntry raceEntry2 = new RaceEntry(horseDAO.findById(2), jockeyDAO.findById(2));
+    raceEntry2.setRank(2);
     raceEntries.add(raceEntry);
     raceEntries.add(raceEntry2);
     Race race = new Race(raceEntries);
@@ -56,5 +67,6 @@ public abstract class AbstractJDBCRaceDAOTest {
   @Test
   public void findAllShouldFindAllRaces() {
     List<Race> races = raceDAO.findAll();
+    org.junit.Assert.assertFalse(races.isEmpty());
   }
 }

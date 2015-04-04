@@ -1,10 +1,8 @@
 package sepm.ss15.e1227085.dao;
 
 import sepm.ss15.e1227085.domain.Race;
-import sepm.ss15.e1227085.domain.RaceEntry;
 
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created by Patrick Grosslicht <e1227085@student.tuwien.ac.at>.
@@ -32,12 +30,4 @@ public interface IRaceDAO {
    * @return the list
    */
   public List<Race> findAll();
-
-  /**
-   * Find all race entries by id.
-   *
-   * @param id the id
-   * @return the list
-   */
-  public List<RaceEntry> findAllRaceEntriesById(UUID id);
 }

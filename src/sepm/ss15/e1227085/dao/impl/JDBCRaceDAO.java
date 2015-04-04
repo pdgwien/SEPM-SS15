@@ -32,7 +32,7 @@ public class JDBCRaceDAO implements IRaceDAO {
   public JDBCRaceDAO() {
     try {
       Connection conn = DataSource.getConnection();
-      createStmt = conn.prepareStatement("INSERT INTO Race (id, horse, jockey, talent, speed, luckyNumber) VALUES (?, ?, ?, ?, ?, ?)");
+      createStmt = conn.prepareStatement("INSERT INTO Race (id, horse, jockey, talent, speed, luckyNumber, rank) VALUES (?, ?, ?, ?, ?, ?, ?)");
       deleteStmt = conn.prepareStatement("DELETE FROM Race WHERE id = ?");
       findAllIdsStmt = conn.prepareStatement("SELECT DISTINCT(id) FROM Race");
       findAllRaceEntriesStmt = conn.prepareStatement("SELECT * FROM Race WHERE id = ?");
@@ -63,6 +63,7 @@ public class JDBCRaceDAO implements IRaceDAO {
         createStmt.setDouble(4, raceEntry.getTalent());
         createStmt.setDouble(5, raceEntry.getSpeed());
         createStmt.setDouble(6, raceEntry.getLuckyNumber());
+        createStmt.setInt(7, raceEntry.getRank());
         int affectedRows = createStmt.executeUpdate();
         if (affectedRows == 0) {
           throw new SQLException("Creating race failed, no affected rows");
@@ -127,8 +128,7 @@ public class JDBCRaceDAO implements IRaceDAO {
    *
    * @return the list
    */
-  @Override
-  public List<RaceEntry> findAllRaceEntriesById(UUID id) {
+  private List<RaceEntry> findAllRaceEntriesById(UUID id) {
     ArrayList<RaceEntry> raceEntryList = null;
     IHorseDAO horseDAO = new JDBCHorseDAO();
     IJockeyDAO jockeyDAO = new JDBCJockeyDAO();
@@ -142,7 +142,7 @@ public class JDBCRaceDAO implements IRaceDAO {
       while (rs.next()) {
         tmpHorse = horseDAO.findById(rs.getLong(2));
         tmpJockey = jockeyDAO.findById(rs.getLong(3));
-        tmpRaceEntry = new RaceEntry(tmpHorse, tmpJockey, rs.getDouble(4), rs.getDouble(5), rs.getDouble(6));
+        tmpRaceEntry = new RaceEntry(tmpHorse, tmpJockey, rs.getDouble(4), rs.getDouble(5), rs.getDouble(6), rs.getInt(7));
         raceEntryList.add(tmpRaceEntry);
       }
     } catch (SQLException e) {

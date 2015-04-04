@@ -95,7 +95,7 @@ public class HorseTabController {
       controller.setNewHorseCreation(newHorseCreation);
       controller.setHorse(horse);
 
-      dialogStage.show();
+      dialogStage.showAndWait();
       return controller.isOkClicked();
     } catch (IOException e) {
       LOGGER.error(e);
@@ -144,6 +144,7 @@ public class HorseTabController {
   private void handleNewHorse() {
     Horse tmpHorse = new Horse();
     if (this.showHorseEditDialog(tmpHorse, true)) {
+      LOGGER.debug("Test");
       horseList.add(tmpHorse);
     }
   }

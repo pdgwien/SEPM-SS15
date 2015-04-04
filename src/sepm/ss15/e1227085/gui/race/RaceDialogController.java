@@ -201,6 +201,7 @@ public class RaceDialogController {
       alert.setContentText("Willst du das wirklich löschen?");
       Optional<ButtonType> result = alert.showAndWait();
       if (result.isPresent() && result.get() == ButtonType.OK) {
+        selectedIndex = sortedRaceEntriesList.getSourceIndex(selectedIndex);
         raceEntriesList.remove(selectedIndex);
       }
     } else {

@@ -23,7 +23,7 @@ public class DataSource {
       throw new RuntimeException();
     }
     try {
-      this.connection = DriverManager.getConnection("jdbc:h2:./db", "sa", "");
+      this.connection = DriverManager.getConnection("jdbc:h2:./db;INIT=RUNSCRIPT FROM './create.sql'\\;", "sa", "");
     } catch (SQLException e) {
       LOGGER.error(e);
       throw new RuntimeException();

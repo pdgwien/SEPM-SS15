@@ -113,4 +113,13 @@ public class StatisticsTabController {
       showStatisticsDialog(selectedHorse, selectedJockey);
     }
   }
+
+  /**
+   * clear the selection when button is pressed
+   */
+  @FXML
+  private void handleClearSelection() {
+    horseTable.getSelectionModel().clearSelection();
+    jockeyTable.getSelectionModel().clearSelection();
+  }
 }

@@ -1,0 +1,12 @@
+sepm.ss15.e1227085.dao
+sepm.ss15.e1227085.dao.impl
+sepm.ss15.e1227085.domain
+sepm.ss15.e1227085.gui
+sepm.ss15.e1227085.gui.horse
+sepm.ss15.e1227085.gui.jockey
+sepm.ss15.e1227085.gui.race
+sepm.ss15.e1227085.gui.statistics
+sepm.ss15.e1227085.service
+sepm.ss15.e1227085.service.impl
+sepm.ss15.e1227085.test
+sepm.ss15.e1227085.util
